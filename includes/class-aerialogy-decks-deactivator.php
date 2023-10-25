@@ -23,14 +23,24 @@
 class Aerialogy_Decks_Deactivator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Cleans up the plugin after being deactivated.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+		self::removeTables();
+	}
 
+	/**
+	 * Remove Aerialogy Decks tables from the database.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function removeTables() {
+		global $wpdb;
+    
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}" . AERIALOGY_DECKS_TABLE );
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}" . AERIALOGY_CARDS_TABLE );
 	}
 
 }
