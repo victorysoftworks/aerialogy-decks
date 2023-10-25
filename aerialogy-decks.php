@@ -27,11 +27,17 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Currently plugin version.
+ * Current plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'AERIALOGY_DECKS_VERSION', '1.0.0' );
+
+/**
+ * Database table names, without prefix.
+ */
+define( 'AERIALOGY_DECKS_TABLE', 'academy_decks' );
+define( 'AERIALOGY_CARDS_TABLE', 'academy_deck_cards' );
 
 /**
  * The code that runs during plugin activation.
