@@ -100,4 +100,29 @@ class Aerialogy_Decks_Public {
 
 	}
 
+	/**
+	 * Register Gutenberg blocks for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_blocks() {
+
+		register_block_type( plugin_dir_path( dirname( __FILE__ ) ) . 'blocks/show-user-decks', [
+			'render_callback' => [ $this, 'show_user_decks' ]
+		] );
+	
+	}
+
+	/**
+	 * Function for rendering the "show user decks" block.
+	 *
+	 * @since    1.0.0
+	 */
+	public function show_user_decks( $block_attributes, $content ) {
+		$username = wp_get_current_user()->display_name;
+		ob_start();
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/show-user-decks.php';
+		return ob_get_clean();
+	}
+
 }
