@@ -131,6 +131,7 @@ class Aerialogy_Decks {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_post_create_aerialogy_deck', $plugin_admin, 'create_deck' );
 
 	}
 

@@ -100,4 +100,8 @@ class Aerialogy_Decks_Admin {
 
 	}
 
+	public function create_deck() {
+		print_r($_POST);
+	}
+
 }
