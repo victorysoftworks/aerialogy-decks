@@ -119,10 +119,38 @@ class Aerialogy_Decks_Public {
 	 * @since    1.0.0
 	 */
 	public function show_user_decks( $block_attributes, $content ) {
-		$username = wp_get_current_user()->display_name;
+		$user = wp_get_current_user();
+		$username = $user->display_name;
+		$user_id = $user->id;
+		$decks = $this->get_user_decks($user_id);
+
 		ob_start();
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/show-user-decks.php';
 		return ob_get_clean();
+	}
+
+	private function get_user_decks( $user_id ) {
+		global $wpdb;
+
+		$sql = $wpdb->prepare(
+			"SELECT * FROM `{$wpdb->prefix}" . AERIALOGY_DECKS_TABLE . "` WHERE `user_id` = %d",
+			$user_id
+		);
+
+		$decks = $wpdb->get_results($sql, ARRAY_A);
+
+		foreach ($decks as $key => $deck) {
+			$sql = $wpdb->prepare(
+				"SELECT * FROM `{$wpdb->prefix}" . AERIALOGY_CARDS_TABLE . "` WHERE `deck_id` = %d",
+				$deck['id']
+			);
+
+			$cards = $wpdb->get_results($sql, ARRAY_A);
+
+			$decks[$key]['cards'] = $cards;
+		}
+
+		return $decks;
 	}
 
 }
