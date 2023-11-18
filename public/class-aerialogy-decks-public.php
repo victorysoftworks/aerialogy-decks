@@ -100,4 +100,71 @@ class Aerialogy_Decks_Public {
 
 	}
 
+	/**
+	 * Register Gutenberg blocks for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_blocks() {
+
+		register_block_type( plugin_dir_path( dirname( __FILE__ ) ) . 'blocks/show-user-decks', [
+			'render_callback' => [ $this, 'show_user_decks' ]
+		] );
+	
+	}
+
+	/**
+	 * Function for rendering the "show user decks" block.
+	 *
+	 * @since    1.0.0
+	 */
+	public function show_user_decks( $block_attributes, $content ) {
+		if ( ! is_user_logged_in() ) return;
+
+		$user = wp_get_current_user();
+		$username = $user->display_name;
+		$user_id = $user->id;
+		$decks = $this->get_user_decks($user_id);
+
+		ob_start();
+
+		if (isset($_GET['create_success'])) {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/deck-created-message.php';
+		}
+		
+		if (count($decks) > 0) {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/show-decks.php';
+		} else {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/no-decks.php';
+		}
+
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/create-deck-form.php';
+		
+		return ob_get_clean();
+	}
+
+	private function get_user_decks( $user_id ) {
+		global $wpdb;
+
+		$sql = $wpdb->prepare(
+			"SELECT * FROM `{$wpdb->prefix}" . AERIALOGY_DECKS_TABLE . "` WHERE `user_id` = %d",
+			$user_id
+		);
+
+		$decks = $wpdb->get_results($sql, ARRAY_A);
+
+		foreach ($decks as $key => $deck) {
+			$sql = $wpdb->prepare(
+				"SELECT * FROM `{$wpdb->prefix}" . AERIALOGY_CARDS_TABLE . "` WHERE `deck_id` = %d",
+				$deck['id']
+			);
+
+			$cards = $wpdb->get_results($sql, ARRAY_A);
+
+			$decks[$key]['cards'] = $cards;
+		}
+
+		return $decks;
+	}
+
 }

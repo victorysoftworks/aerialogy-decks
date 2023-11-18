@@ -34,6 +34,12 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'AERIALOGY_DECKS_VERSION', '1.0.0' );
 
 /**
+ * Nonce name.
+ */
+
+define( 'AERIALOGY_NONCE', '_ae_nonce' );
+
+/**
  * Database table names, without prefix.
  */
 define( 'AERIALOGY_DECKS_TABLE', 'academy_decks' );

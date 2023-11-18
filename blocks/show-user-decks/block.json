@@ -1,0 +1,8 @@
+{
+  "apiVersion": 3,
+  "title": "Aerialogy — Show User Decks",
+  "name": "aerialogy-decks/show-user-decks",
+  "category": "widgets",
+  "icon": "images-alt2",
+  "editorScript": "file:./block.js"
+}

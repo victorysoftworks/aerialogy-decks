@@ -100,4 +100,48 @@ class Aerialogy_Decks_Admin {
 
 	}
 
+	public function create_deck() {
+		$user = wp_get_current_user();
+		$user_id = $user->id;
+
+		$this->verify_nonce( $_POST );
+		$this->verify_user( $_POST, $user_id );
+		$this->add_deck_to_database( $_POST, $user_id );
+
+	}
+
+	private function verify_nonce($post) {
+		// TODO: Replace with nonce verify failure hook
+
+		if ( ! isset($post[AERIALOGY_NONCE]) || ! wp_verify_nonce( $post[AERIALOGY_NONCE], 'create_aerialogy_deck' ) ) {
+			die( 'Invalid nonce' );
+		}
+	}
+
+	private function verify_user($post, $user_id) {
+		if ( ! isset($post['user_id']) || $post['user_id'] != $user_id ) {
+			die( 'Attempted to create deck for someone other than currently logged-in user' ); 
+		}
+	}
+
+	private function add_deck_to_database($post, $user_id) {
+		global $wpdb;
+
+		$deck_name = preg_replace('/[^\w\d\s]+/', '', $post['deck_name']);
+
+		$success = $wpdb->insert(
+			$wpdb->prefix . AERIALOGY_DECKS_TABLE,
+			[ 'deck_name' => $deck_name, 'user_id' => $user_id ],
+			[ '%s', '%d' ]
+		);
+
+		if ($success) {
+			$redirect_url = wp_sanitize_redirect( $post['_wp_http_referer'] );
+			$redirect_params = http_build_query( ['create_success' => true ] );
+			wp_safe_redirect( "$redirect_url?$redirect_params" );
+		} else {
+			die( 'Failed to create deck' );
+		}
+	}
+
 }
