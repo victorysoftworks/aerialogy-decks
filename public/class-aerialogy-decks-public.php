@@ -127,7 +127,19 @@ class Aerialogy_Decks_Public {
 		$decks = $this->get_user_decks($user_id);
 
 		ob_start();
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/show-user-decks.php';
+
+		if (isset($_GET['create_success'])) {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/deck-created-message.php';
+		}
+		
+		if (count($decks) > 0) {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/show-decks.php';
+		} else {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/no-decks.php';
+		}
+
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/create-deck-form.php';
+		
 		return ob_get_clean();
 	}
 
