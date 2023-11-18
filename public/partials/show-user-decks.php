@@ -11,6 +11,12 @@
  */
 ?>
 
+<?php if (isset($_GET['create_success'])): ?>
+
+  <p><strong>Deck created!</strong></p>
+
+<?php endif; ?>
+
 <?php if (count($decks) > 0): ?>
 
   <?php foreach ($decks as $deck): ?>
@@ -44,10 +50,10 @@
 
 <form method="post" action="/wp-admin/admin-post.php">
   <label for="deck_name">Deck name</label>
-  <input type="text" name="deck_name" id="deck_name" required>
+  <input type="text" name="deck_name" id="deck_name" autocomplete="off" required>
 
   <input type="hidden" name="action" value="create_aerialogy_deck">
-  <?php wp_nonce_field( 'create_aerialogy_deck' . time() ); ?>
+  <?php wp_nonce_field( 'create_aerialogy_deck', AERIALOGY_NONCE ); ?>
   <input type="hidden" name="user_id" value="<?= $user_id ?>">
   <button>Create a new deck</button>
 </form>
