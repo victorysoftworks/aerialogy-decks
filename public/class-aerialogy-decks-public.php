@@ -119,6 +119,8 @@ class Aerialogy_Decks_Public {
 	 * @since    1.0.0
 	 */
 	public function show_user_decks( $block_attributes, $content ) {
+		if ( ! is_user_logged_in() ) return;
+
 		$user = wp_get_current_user();
 		$username = $user->display_name;
 		$user_id = $user->id;
