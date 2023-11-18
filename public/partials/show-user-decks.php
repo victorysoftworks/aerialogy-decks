@@ -35,7 +35,7 @@
       </ul>
 
     <?php else: ?>
-      <p>You have not yet added any cards to this deck.</p>
+      <p>You have not yet added any cards to this deck. <a href="#">Find cards to add</a></p>
     <?php endif; ?>
 
   <?php endforeach; ?>
