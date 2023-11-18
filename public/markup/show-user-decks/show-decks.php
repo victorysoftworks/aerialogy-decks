@@ -2,6 +2,8 @@
 
   <h3><?= $deck['deck_name'] ?></h3>
 
+  <?php include plugin_dir_path( dirname( __FILE__ ) ) . '/show-user-decks/delete-deck-form.php'; ?>
+
   <?php if (count($deck['cards']) > 0): ?>
 
     <ul>
