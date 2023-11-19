@@ -131,6 +131,10 @@ class Aerialogy_Decks_Public {
 		if (isset($_GET['create_success'])) {
 			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/deck-created-message.php';
 		}
+
+		if (isset($_GET['delete_success'])) {
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/deck-deleted-message.php';
+		}
 		
 		if (count($decks) > 0) {
 			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/markup/show-user-decks/show-decks.php';

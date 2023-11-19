@@ -1,0 +1,1 @@
+<p><strong>Deck deleted! RIP</strong></p>

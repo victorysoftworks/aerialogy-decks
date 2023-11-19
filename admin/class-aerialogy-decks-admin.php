@@ -104,16 +104,16 @@ class Aerialogy_Decks_Admin {
 		$user = wp_get_current_user();
 		$user_id = $user->id;
 
-		$this->verify_nonce( $_POST );
+		$this->verify_nonce( $_POST, 'create_aerialogy_deck' );
 		$this->verify_user( $_POST, $user_id );
 		$this->add_deck_to_database( $_POST, $user_id );
 
 	}
 
-	private function verify_nonce($post) {
+	private function verify_nonce($post, $action) {
 		// TODO: Replace with nonce verify failure hook
 
-		if ( ! isset($post[AERIALOGY_NONCE]) || ! wp_verify_nonce( $post[AERIALOGY_NONCE], 'create_aerialogy_deck' ) ) {
+		if ( ! isset($post[AERIALOGY_NONCE]) || ! wp_verify_nonce( $post[AERIALOGY_NONCE], $action ) ) {
 			die( 'Invalid nonce' );
 		}
 	}
@@ -141,6 +141,35 @@ class Aerialogy_Decks_Admin {
 			wp_safe_redirect( "$redirect_url?$redirect_params" );
 		} else {
 			die( 'Failed to create deck' );
+		}
+	}
+
+	public function delete_deck() {
+		$user = wp_get_current_user();
+		$user_id = $user->id;
+
+		$this->verify_nonce( $_POST, 'delete_aerialogy_deck' );
+		$this->verify_user( $_POST, $user_id );
+		$this->remove_deck_from_database( $_POST, $user_id );
+	}
+
+	private function remove_deck_from_database($post, $user_id) {
+		global $wpdb;
+
+		$deck_id = filter_var($post['deck_id'], FILTER_SANITIZE_NUMBER_INT);
+
+		$success = $wpdb->delete(
+			$wpdb->prefix . AERIALOGY_DECKS_TABLE,
+			[ 'id' => $deck_id ],
+			[ '%d' ]
+		);
+
+		if ($success) {
+			$redirect_url = wp_sanitize_redirect( $post['_wp_http_referer'] );
+			$redirect_params = http_build_query( ['delete_success' => true ] );
+			wp_safe_redirect( "$redirect_url?$redirect_params" );
+		} else {
+			die( 'Failed to delete deck' );
 		}
 	}
 
