@@ -54,9 +54,9 @@ class Aerialogy_Decks_Activator {
 	public static function createDecksTable($wpdb, $charset_collate) {
 		$sql = "CREATE TABLE {$wpdb->prefix}" . AERIALOGY_DECKS_TABLE . " (
 			id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-			deck_id int(10) UNSIGNED NOT NULL COMMENT 'foreign key',
 			deck_name text NOT NULL,
 			user_id int(10) UNSIGNED NOT NULL COMMENT 'foriegn key',
+			public tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
