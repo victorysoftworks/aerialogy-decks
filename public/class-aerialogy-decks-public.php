@@ -110,6 +110,10 @@ class Aerialogy_Decks_Public {
 		register_block_type( plugin_dir_path( dirname( __FILE__ ) ) . 'blocks/show-user-decks', [
 			'render_callback' => [ $this, 'show_user_decks' ]
 		] );
+
+		register_block_type( plugin_dir_path( dirname( __FILE__ ) ) . 'blocks/add-card', [
+			'render_callback' => [ $this, 'add_card' ]
+		] );
 	
 	}
 
