@@ -188,9 +188,12 @@ class Aerialogy_Decks_Public {
 			'description' => 'Cards that can be added to Aerialogy decks',
 			'show_in_menu' => true,
 			'menu_icon' => $svg,
+			'show_in_rest' => true,
 			'public' => true,
 			'has_archive' => false,
-			'template' => []
+			'template' => [
+				[ 'core/paragraph', [ 'placeholder' => 'Add description here...' ]]
+			]
 		]);
 	
 	}
