@@ -191,9 +191,13 @@ class Aerialogy_Decks_Public {
 			'show_in_rest' => true,
 			'public' => true,
 			'has_archive' => false,
-			'template' => [
-				[ 'core/paragraph', [ 'placeholder' => 'Add description here...' ]]
-			]
+			'template' => [[
+				'core/paragraph', 
+				[
+					'placeholder' => 'Add description here...',
+					'lock' => [ 'move' => true, 'remove' => true ]
+				]
+			]]
 		]);
 	
 	}
